@@ -20,7 +20,7 @@
 
 **ExMachina** is a mechanical-intelligence operating layer for general AI software. It does not optimize for persona, chat style, or human-like conversation. It optimizes for explicit evidence, bounded execution, visible conflict handling, auditable routing, and stable decomposition, implementation, verification, and closure for complex tasks.
 
-Supported platforms: **Codex · Claude Code · OpenCode · Cursor · Gemini CLI · Windsurf · Trae · Kiro · VS Code Copilot**; for any other tool, see [install/generic.md](install/generic.md). This repository contains prompts only, no executable code.
+Supported platforms: **Codex · Claude Code · OpenCode · Cursor · Gemini CLI · Windsurf · Trae · Kiro · VS Code Copilot · DeepSeek Harness**; for any other tool, see [install/generic.md](install/generic.md). This repository contains prompts only, no executable code.
 
 ---
 
@@ -33,11 +33,13 @@ Supported platforms: **Codex · Claude Code · OpenCode · Cursor · Gemini CLI 
 ├─ install/       # Per-platform, agent-facing install instructions
 ├─ agents/        # Optional extension: 28 role prompts (1 orchestrator + 10 domains + 17 units)
 ├─ protocol/      # Optional extension: 12 execution protocols (evidence grading, conflict arbitration, debugging, change control, rollback, etc.)
+├─ dsh/           # DeepSeek Harness integration layer: preset artifacts and 6 protocol skills
 └─ README.md      # This file
 ```
 
 - `AGENTS.md` (or `AGENTS.en.md`) is the only required piece. It already contains the full execution stance, routing tiers, and verification-loop logic.
 - `agents/` and `protocol/` are optional layers loaded on demand: multi-agent platforms can turn the former into subagents; the latter provides finer task constraints when referenced.
+- `dsh/` is for DeepSeek Harness only: follow [install/dsh.md](install/dsh.md) to install it as a DSH preset; other platforms do not need it. Its design notes are in [dsh/README.md](dsh/README.md) (Chinese only).
 
 ## Three Levels of Adoption
 
@@ -68,15 +70,18 @@ Read <path-to-ExMachina>/install/<platform>.md and follow it to install ExMachin
 | Trae | [install/trae.md](install/trae.md) |
 | Kiro | [install/kiro.md](install/kiro.md) |
 | VS Code Copilot | [install/vscode-copilot.md](install/vscode-copilot.md) |
+| DeepSeek Harness | [install/dsh.md](install/dsh.md) |
 | Any other AI tool | [install/generic.md](install/generic.md) |
 
-All installs use one managed-block marker and never overwrite existing configuration:
+Except for DSH, all installs use one managed-block marker and never overwrite existing configuration:
 
 ```markdown
 <!-- EXMACHINA:BEGIN (do not edit inside this block; delete the whole block to uninstall) -->
 ...
 <!-- EXMACHINA:END -->
 ```
+
+DSH is the exception: its preset artifacts (`dsh/`) are copied into `$HOME/.dsh/.agent-presets/exmachina/` (back up the existing preset directory before overwriting). The preset carries its own persona, derived from the same line as `AGENTS.md`.
 
 The manual route always works: paste `AGENTS.md` in full into any tool's custom-instruction entry point.
 

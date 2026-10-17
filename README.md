@@ -20,7 +20,7 @@
 
 **ExMachina** 是一套面向通用 AI 软件的机械智能操作层。它不追求人格化、不追求"像人类一样聊天"，而是追求绝对理性、证据驱动、冲突显式化、路径可审计，以及在复杂任务中稳定地拆解、执行、校验和收束。
 
-支持平台：**Codex · Claude Code · OpenCode · Cursor · Gemini CLI · Windsurf · Trae · Kiro · VS Code Copilot**，其他工具见 [install/generic.md](install/generic.md)。本项目只包含提示词，不含可执行代码。
+支持平台：**Codex · Claude Code · OpenCode · Cursor · Gemini CLI · Windsurf · Trae · Kiro · VS Code Copilot · DeepSeek Harness**，其他工具见 [install/generic.md](install/generic.md)。本项目只包含提示词，不含可执行代码。
 
 ---
 
@@ -33,11 +33,13 @@
 ├─ install/       # 各平台面向 Agent 的安装指令
 ├─ agents/        # 可选扩展：28 个角色提示词（1 指挥体 + 10 连结体 + 17 子个体）
 ├─ protocol/      # 可选扩展：12 份执行协议（证据分级、冲突裁决、调试、变更、回滚等）
+├─ dsh/           # DeepSeek Harness 接入层：预设工件与 6 个协议技能
 └─ README.md      # 本文件
 ```
 
 - `AGENTS.md` 是唯一必需项，本身已包含完整的执行姿态、路由层级与验证闭环逻辑。
 - `agents/` 与 `protocol/` 是按需加载的扩展层：支持多智能体的平台用前者定义子代理；需要更细任务约束时引用后者的对应文件。
+- `dsh/` 仅用于 DeepSeek Harness：按 [install/dsh.md](install/dsh.md) 复制为 DSH 预设，其他平台无需该目录；预设的构成与设计说明见 [dsh/README.md](dsh/README.md)。
 
 ## 三种接入深度
 
@@ -68,15 +70,18 @@
 | Trae | [install/trae.md](install/trae.md) |
 | Kiro | [install/kiro.md](install/kiro.md) |
 | VS Code Copilot | [install/vscode-copilot.md](install/vscode-copilot.md) |
+| DeepSeek Harness | [install/dsh.md](install/dsh.md) |
 | 其他任意 AI 工具 | [install/generic.md](install/generic.md) |
 
-所有安装均使用统一的受管理块标记，不覆盖已有配置：
+除 DSH 外，所有安装均使用统一的受管理块标记，不覆盖已有配置：
 
 ```markdown
 <!-- EXMACHINA:BEGIN（请勿在块内手动修改；卸载时删除整个块） -->
 ...
 <!-- EXMACHINA:END -->
 ```
+
+DSH 是例外：预设工件（`dsh/`）复制到 `$HOME/.dsh/.agent-presets/exmachina/`，覆盖前先备份原目录；预设自带 persona（与 `AGENTS.md` 同源、独立成文），不走受管理块体系。
 
 手动方式始终可用：把 `AGENTS.md` 全文粘贴进任意工具的自定义指令入口。
 
